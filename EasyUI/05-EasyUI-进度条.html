@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EasyUI进度条</title>
+    <link rel="stylesheet" type="text/css"" href="js/themes/default/easyui.css">
+    <link rel="stylesheet" type="text/css" href="js/themes/icon.css">
+    <script src="js/jquery.min.js" type="text/javascript"></script>
+    <script src="js/jquery.easyui.min.js" type="text/javascript"></script>
+    <script>
+        $(function(){
+            $("#div1").progressbar();
+        })
+
+        function testRun(){
+            $("#div1").progressbar("setValue",0);
+            var value=$("#div1").progressbar("getValue");//获取进度条百分比值
+            while(value<100){
+                value +=Math.floor(Math.random()*5);
+                $("#div1").progressbar("setValue",value);
+                // sleep(2000);
+            }
+        }
+
+        // function sleep(ms) {
+        //     return new Promise(resolve => setTimeout(resolve, ms))
+        // }
+
+    </script>
+</head>
+<body>
+    <h3>EasyUI进度条</h3>
+    <input type="button" value="进度条开跑！" onclick="testRun();">
+    <hr>
+    <div id="div1" style="width: 300px;">
+
+    </div>
+</body>
+</html>

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JSON解析</title>
+    <script type="text/javascript">
+        //JSON格式字符串
+        var str = '{"name":"张三","age":18,"fav":"math"}';
+        
+        //JSON解析方法1  eval方法解析 获得对象
+        var obj = eval('(' + str + ')'); //加（），让eval将json识别为表达式执行获得对象
+        // var obj =eval(str);//直接{}执行，报错
+        console.log(obj);//{name: "张三", age: 18, fav: "math"}
+        console.log(obj.name);//张三
+        
+        //JSON解析方法2 JSON.parse()  推荐使用
+        var obj = JSON.parse(str);
+        console.log(obj);//{name: "张三", age: 18, fav: "math"}
+        //JSON解析的同时对数据进行处理，修改了age的值
+        obj = JSON.parse(str,function(name,value){
+            if(name=="age"){
+                value = 15;
+            }
+            return value;
+        })
+        console.log(obj);//{name: "张三", age: 15, fav: "math"}
+        
+        console.log("-------------------");
+        
+        //JSON生成
+        var obj={
+            "id":18,
+            "name":"张三",
+            "score":89,
+            obj2:{"haha":"什么"},
+            a:undefined,      //undefined被过滤
+            f:function(){},   //函数杯过滤
+            b:[function(){}]  //数组里面的函数转化为null
+        };
+        console.log(obj);
+        var jsonstr = JSON.stringify(obj);
+        //{"id":18,"name":"张三","score":89,"obj2":{"haha":"什么"},"b":[null]}
+        console.log(jsonstr);
+        
+        //生成JSON字符串的同时对数据进行处理
+        var jsonstr2=JSON.stringify(obj,fn);
+        function fn(name,value){
+            if(name=="name"){
+                value="李四";
+            }
+            return value;
+        }
+        //{"id":18,"name":"李四","score":89,"obj2":{"haha":"什么"},"b":[null]}
+        console.log(jsonstr2);
+        
+
+        var obj={
+            "a":1,
+            "b":2,
+            "c":3,
+            "d":4
+        }
+        //生成的json文件的元素会按数组元素及顺序排列
+        var jsonstr=JSON.stringify(obj,['c','a','b']);
+        console.log(jsonstr);//{"c":3,"a":1,"b":2}
+
+
+        var jsonstr=JSON.stringify(obj,['c','a','b'],'\t'); //美化JSON格式  '\t'
+        console.log(jsonstr);//{"c":3,"a":1,"b":2}
+        // {
+        //     "c": 3,
+        //     "a": 1,
+        //     "b": 2
+        // }
+
+    </script>
+</head>
+
+<body>
+    <h3>JSON解析</h3>
+</body>
+
+</html>

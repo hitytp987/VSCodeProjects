@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script type="text/javascript">
+
+        //class
+        class Employee{
+            constructor(name,position){
+                this.name = name;
+                this.position = position;
+            }
+            signIn(){
+                console.log(this.name + "，打卡上班");
+            }
+
+            get info(){
+                return this.name + " "+ this.position;
+            }
+            set info(info){
+                let [name,position] = info.split(" ");
+                this.name = name;
+                this.position = position;
+            }
+        }
+
+        var emp = new Employee("张三","前端工程师");
+        console.log(emp);
+        emp.signIn();
+        console.log(emp.position);
+        console.log(emp.info);
+        emp.info = "李四 后端工程师";
+        console.log(emp.info);
+        
+        
+        
+
+
+
+    </script>
+</head>
+<body>
+    
+</body>
+</html>

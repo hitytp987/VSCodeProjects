@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script type="text/javascript">
+        //创建对象
+        var person = {
+            name: "yang",
+            age: 18,
+            doWork: function () {
+                console.log("任务内容");
+            }
+        };
+
+        var p2 = new Object();
+        p2.name = "张三";
+        p2.age = 22;
+        p2.testDo = function () {
+            console.log("动作~");
+        }
+
+        //对象属性
+        console.log(person.name);
+        console.log(person["name"]);
+        console.log(p2.name);
+        var person1 = {
+            name: "李四",
+            "birth-date": "1111-01-01"
+        }
+        console.log(person1["birth-date"]);
+        var name = "yang";
+        var person2 = {
+            name, //key和value都是变量名，可以省略key
+            test() {  //函数可以直接命名
+                console.log("test");
+            }
+        }
+        console.log(person2.name);
+        person2.test();
+
+        //遍历对象属性
+        console.clear();
+        console.log(Object.keys(person));//["name", "age", "doWork"]
+
+        for (key in person) { //返回对象的key:value
+            console.log(key + ":" + person[key]);
+        }
+
+        //删除对象属性
+        delete person.age;
+        console.log(Object.keys(person));// ["name", "doWork"]
+        console.log(person);
+
+        //创建对象 构造函数
+        console.clear();
+
+        function Employee(name, position) {
+            this.name = name;
+            this.position = position;
+        }
+
+        var emp1 = new Employee("张三", "工程师");
+        console.log(emp1);
+
+        //getter setter
+        console.clear();
+        var emp = {
+            name: "yang",
+            age: 18,
+            get getName() {
+                return this.name;
+            },
+            set setAge(age) {
+                this.age = age;
+            }
+        }
+        console.log(emp);
+        emp.setAge = 22;
+        console.log(emp);
+        console.log(emp.getName + ":" + emp.age);
+
+        function Employee(name, position) {
+            this.name = name;
+            this.position = position;
+        }
+        var emp = new Employee("张三", "程序员");
+        // Object.defineProperty(emp,"info",{
+        //     get : function(){
+        //         return this.name + " " + this.position;
+        //     },
+        //     set : function(info){
+        //         var [name,position] = info.split(" ");
+        //         this.name = name;
+        //         this.position = position;
+        //     }
+        // });
+        Object.defineProperty(emp, "info", {
+            get: function () {
+                return this.name + ":" + this.position;
+            },
+            set: function (info) {
+                var [name, position] = info.split(":");
+                this.name = name;
+                this.position = position;
+            }
+        });
+
+        console.log(emp);
+        console.log(emp.info);
+        emp.info = "李四:文员";
+        console.log(emp);
+        console.log(emp.info);
+
+        //对象  原型
+        console.clear();
+        function Employee(name, position) {
+            this.name = name;
+            this.position = position;
+            this.sighIn = function () {
+                console.log(this.name + "，打卡");
+            }
+        }
+        var emp1 = new Employee("张三", "前端");
+        var emp2 = new Employee("李四", "后端");
+        console.log(emp1);
+        console.log(emp2);
+        console.log(Employee.prototype);
+
+        Employee.prototype.age = 20; //原型增加age属性
+        console.log(emp1.age);
+        console.log(emp2.age);
+        //原型增加方法
+        Employee.prototype.printInfo = function () {
+            console.log(this.name + ":" + this.age + ":" + this.position);
+        }
+        emp1.printInfo();
+        emp2.printInfo();
+
+        console.log(emp1.__proto__);
+        console.log(Object.getPrototypeOf(emp2));
+        console.log(Employee.prototype);
+        console.log(emp1.__proto__ === Employee.prototype);//true
+
+        //继承
+        console.clear();
+        for (key in emp1) {
+            console.log(key);
+        }
+        console.log("--------------");
+        //创建一个对象继承自emp1，这样就有了emp1的属性和方法
+        var manager = Object.create(emp1);
+        console.log(manager);
+        for (key in manager) {
+            console.log(key);
+        }
+        console.log(manager.name);//张三   这个属性的值继承自emp1
+        manager.sighIn();//张三，打卡 方法也继承自emp1
+        manager.name = "李四";
+        manager.position = "经理";
+        manager.printInfo();
+        manager.sayHi = function () {
+            console.log("Hi！！！");
+        }
+        //manger对象自身的属性
+        console.log(Object.getOwnPropertyNames(manager));
+
+        //原型链
+        console.clear();
+        //因为manager继承自（Object.create(emp1)），所以原型是emp1
+        var protoOfManager = Object.getPrototypeOf(manager);
+        console.log(protoOfManager);
+        var protoOfEmp1 = Object.getPrototypeOf(protoOfManager);
+        console.log(protoOfEmp1);//emp1的原型是Emp
+        var protoOfEmp = Object.getPrototypeOf(protoOfEmp1);
+        console.log(protoOfEmp);//emp的原型是Object
+        var protoOfObj = Object.getPrototypeOf(protoOfEmp);
+        console.log(protoOfObj);//null   Object的原型是null
+
+        //修改原型指向
+        console.clear();
+        function Manager() { };
+        Manager.prototype.department = "技术部";
+
+        console.log(Object.getPrototypeOf(manager));//manager原型指向emp1
+        Object.setPrototypeOf(manager, Manager.prototype);//修改manager的原型指向
+        console.log(Object.getPrototypeOf(manager));//manager原型指向Manager,有了department属性，和emp1无关了
+        for (key in manager) {
+            console.log(key); //自保留了自身定义的和继承自Manager的属性和方法
+
+        }
+
+
+        //对象 spread操作符   可以实现对象、数组的克隆
+        console.clear();
+        var post = {
+            id: 1,
+            title: "标题",
+            content: "内容",
+            print() {
+                console.log(title + ":" + content);
+            }
+        }
+        console.log(post);
+        var postClone = { ...post };
+        console.log(postClone);
+        console.log(post === postClone);//false   克隆对象和原对象不是同一个
+
+        var arr = [1, 2, 3];
+        var arrClone = [...arr, 4, 5];//可以在clone数组的基础上追加元素 
+        console.log(arrClone);//[1, 2, 3, 4, 5]
+
+        function savePost(id, title, content) {
+            console.log("保存内容：", id, title, content);
+        }
+        savePost([2, "标题2", "内容2"]);//保存内容：[2, "标题2", "内容2"] undefined undefined
+        savePost(...[2, "标题2", "内容2"]);//保存内容： 2 标题2 内容2
+
+
+        //destructuring & rest
+        console.clear();
+        var post = {
+            id: 1,
+            title: "标题",
+            content: "内容",
+            contents: null,
+            print() {
+                console.log(title + ":" + content);
+            }
+        }
+        var { id, title } = post; //此处需要大括号，且变量值与post声明的属性值一致,否则undefined
+        console.log(id, title);
+
+        var { id, title: headline } = post; //通过title:headline的方式取别名
+        console.log(id, headline);
+
+        var { id, title: headline, contents = "取默认值" } = post; //设置默认值，注：null也是值
+        console.log(id, headline, contents);//1 "标题" null
+
+        var post2 = {
+            id: 1,
+            title: "标题",
+            content: "内容",
+            contents: [
+                {
+                    usrId: 1,
+                    content: "评论1"
+                },
+                {
+                    usrId: 2,
+                    content: "评论2"
+                },
+                {
+                    usrId: 3,
+                    content: "评论2"
+                }
+            ]
+        }
+        //复杂对象的取数
+        //获取post2 contents下面的第二个content
+        //对象->contents元素数组的第二个对象->content元素
+        var { contents: [, { content }] } = post2;
+        console.log(content);
+
+        //取出obj对象的idKey值
+        function getId(idKey, obj) {
+            let {[idKey]:id} = obj; //加[]可以让变量作为属性名使用
+            return id;
+        }
+        console.log(getId("usrId",{usrId: 2,content: "评论2"}));
+
+        var {title, ...rest} = post2; //取出title属性，剩下的作为一个对象给rest
+        console.log(title);
+        console.log(rest);
+
+        function savePost({id,title,content,...rest}){
+            console.log("保存文章:",id,title,content);
+            console.log(rest);//剩下的就是 contents数组
+            
+        }
+        savePost(post2); //取出post2对象的id，title，content（根据属性名对应）
+
+
+        
+        //call apply baind
+        console.clear();
+        var emp={
+            id:1,
+            name2:"张三"
+        };
+
+        function printInfo2(){
+            console.log("打印内容：",this.name2);
+        };
+        function printInfo2(dep1,dep2,dep3){
+            console.log("打印内容：",this.name2,dep1,dep2,dep3);
+        };
+
+        printInfo2();//打印内容： undefined    此时this指向的是window对象
+        
+        printInfo2.call(emp);//调用emp对象执行printInfo2方法，此时this指向emp
+
+        printInfo2.call(emp,'a','b','c1');//打印内容： 张三 a b c
+        printInfo2.apply(emp,['a','b','c2']);//apply  可以将多个参数用数组传递
+        //bind返回指向参数的新函数，不会执行此函数。要在新函数中执行
+        var newPrint = printInfo2.bind(emp,'a','b','c3');
+        newPrint();
+
+
+
+
+
+
+
+
+
+
+    </script>
+</head>
+
+<body>
+
+</body>
+
+</html>

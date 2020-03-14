@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>模式窗口</title>
+    <script type="text/javascript">
+        var newWin;
+        function show() {
+            var wWidth = 500;
+            var wHeight = 300;
+            var sLeft = (window.screen.availWidth - wWidth)/2;
+            newWin=window.open("","newwindow",'height='+wHeight+',width='+wWidth+',top=100,left='+sLeft+',toolbar=no,menubar=no,scrollbars=no,resizable=no,location=no,status=no');
+            var showdiv = document.getElementById("showdiv");
+            newWin.document.body.innerHTML = showdiv.innerHTML;
+            newWin.document.title = "口径说明";
+
+        }
+        // 父窗口关闭的同时关闭子窗口
+        function close() {
+            newWin.close();
+        }
+
+    </script>
+    <style type="text/css">
+        #inp {
+            position: absolute;
+            top: 0px;
+            right: 0px;
+            width: 80px;
+            font-weight: bold;
+            font-size: 14px;
+            color: rgb(30, 108, 156);
+        }
+        #a_show{
+            position: absolute;
+            top: 0px;
+            right: 0px;
+            font-weight: bold;
+            font-size: 16px;
+            color: rgb(30, 108, 156);
+        }
+    </style>
+</head>
+
+<body onunload="close()">
+    <!-- <input type="button" id="inp" value="*口径说明*" onclick="show();"> -->
+    <a id="a_show" href="javascript:show()">*口径说明*</a>
+    <div id="showdiv" style="display: none;">
+        <pre>
+            <b>正如其名称</b> ，innerHTML 返回 HTML 文本。通常，为了在元素中检索或写入文本，人们使用innerHTML。但是，textContent通常具有更好的性能，因为文本不会被解析为HTML。此外，使用textContent可以防止 XSS 攻击。
+
+            Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.132 Safari/537.36
+
+            Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:73.0) Gecko/20100101 Firefox/73.0
+              
+        </pre>
+    </div>
+</body>
+
+</html>

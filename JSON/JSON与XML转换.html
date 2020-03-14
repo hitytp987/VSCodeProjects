@@ -1,0 +1,50 @@
+<script src="js/jquery-3.4.1.js"></script>
+<script src="js/jquery.json2xml.js"></script>
+<script src="js/jquery.xml2json.js"></script>
+<script>
+    var xmlStr = "<root>" +
+        "<name>张三</name>" +
+        "<age>23</age>" +
+        "<friend>李0</friend>" +
+        "<friend>李1</friend>" +
+        "<friend>李2</friend>" +
+        "<friend>李3</friend>" +
+        "</root>";
+    console.log(xmlStr);
+
+    //将xml转化结果给对象
+    var obj = $.xml2json(xmlStr);
+    console.log(obj);
+    //将对象转化为json字符串
+    var jsonStr = JSON.stringify(obj);
+    console.log("JSON格式字符串：" + jsonStr);
+
+
+
+    var person={
+        name:"张三",
+        age:18,
+        u:undefined,
+        n:null,     //  <n/>
+        f:function(){},
+        o:{score:80},
+        s:[1,2,3]
+    }
+    //对象转为XML格式字符串
+    var xmlStr2=$.json2xml(person);
+    console.log(xmlStr2);
+    // <?xml version="1.0" encoding="UTF-8"?><root>
+    // <name>张三</name>
+    // <age>18</age>
+    // <u>undefined</u>
+    // <n/>
+    // <f>function(){}</f>
+    // <o>
+    //     <score>80</score>
+    // </o>
+    // <s>1</s>
+    // <s>2</s>
+    // <s>3</s>
+    // </root>
+    
+</script>

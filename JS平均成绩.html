@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+        // var count=prompt('请输入学生个数：');
+        // var score=0;
+        // for(var i=0;i<count;i++){
+        //     score+=parseInt(prompt('学生'+(i+1)+'成绩：'));
+        // }
+        // alert('平均成绩：'+ Math.round(score/3));
+
+        var arr = [1, 2, 3];
+        console.log(arr);
+
+        var str = 'as#fs#dx';
+        var arr2 = str.split('#');
+        console.log(arr2);
+        console.log(arr2.join('@'));
+
+        var a1 = [5, 3, 2, 4, 1];
+        for (var i = 0; i < a1.length - 1; i++) {
+            for (var j = 0; j < a1.length - i; j++) {
+                if (a1[j] > a1[j + 1]) {
+                    var tmp = a1[j + 1];
+                    a1[j + 1] = a1[j];
+                    a1[j] = tmp;
+                }
+            }
+        }
+        console.log(a1);
+
+        //arguments 存储了传递过来的所有实参
+        function test() {
+            console.log(arguments); // [1, "a", 2, callee: ƒ, Symbol(Symbol.iterator): ƒ]
+        }
+        test(1, 'a', 2);
+
+        var obj = {
+            name: '张三',
+            age: 18,
+            sex: '男',
+            test: function () { }
+        };
+        for (var k in obj) {
+            console.log(k + ":" + obj[k]);//遍历获取 属性名:属性值
+        }
+
+        console.log(Math.abs('-3'));//3
+        console.log(Math.round(-1.5));//-1
+        console.log(Math.round(1.5));//2
+
+        // //猜数字游戏
+        // //随机生成1~10的数字
+        // var num = Math.floor(Math.random() * 10) + 1;
+        // var guess = parseInt(prompt('请猜数字[1,10]:'));
+        // //一直猜数字直到猜中为止
+        // while (guess != num) {
+        //     if (guess > num) {
+        //         guess = parseInt(prompt('数字大了，请再猜：'));
+        //     } else {
+        //         guess = parseInt(prompt('数字小了，请再猜：'));
+        //     }
+        // }
+        // alert('恭喜猜对，随机数为：' + num);
+
+        var date1 = new Date(2020, 1, 2);//月份从0开始
+        console.log(date1);//得到2020-02-02的时间
+        var date2 = new Date();
+        console.log(date2.getTime());
+        console.log(+new Date());
+
+        var arr = [];
+        console.log(arr instanceof Array);//判断arr是否为数组Array
+        console.log(Array.isArray(arr));//H5新增方法，IE9以上才支持
+
+        var str1="abdfcderddd";
+        console.log(str1.replace('d','*'));//只能替换第一个d
+        console.log(str1.replace(/d/g,'*'));//利用正则表达式替换全部d
+        
+        
+        
+    </script>
+</head>
+
+<body>
+
+</body>
+
+</html>

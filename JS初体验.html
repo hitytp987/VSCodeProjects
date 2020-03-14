@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+        //输入框
+        // var age = prompt("请输入年龄");
+        //控制台输出
+        // console.log("用户年龄："+age);
+        var num = 010;//八进制
+        var num2 = 0x10;//十六进制
+        console.log(num);//8
+        console.log(num2);//16
+        console.log("数字类型最大值：" + Number.MAX_VALUE);
+        console.log("数字类型最小值：" + Number.MIN_VALUE);
+        console.log(Number.MAX_VALUE * 2);//结果：Infinity     无穷大
+        console.log(-Number.MAX_VALUE * 2);//结果：-Infinity   无穷小
+
+        //String
+        var str = '里面"特殊"号~';
+        var str2 = "里面'特殊'号~";
+        console.log(str);
+        console.log(str2);
+        console.clear();
+        console.log("18" + 20);//1818
+
+        //语句块访问区域
+        //let/const：只能在语句块内部访问
+        //var可以在语句块外部访问
+        console.clear();
+        if (true) {
+            var a = 1;
+            let b = 2;
+            const c = 3;
+            console.log(c);//3
+        }
+        console.log(a + 1);//1
+        // console.log(b);//报错  未定义
+        // console.log(c);//报错 未定义
+
+        // var pwd = prompt("请输入暗号");
+        // if(pwd == 1){
+        //     alert("ok");
+        // }else{
+        //     alert("nonono");
+        // }
+        console.clear();
+        function add(a, b) {
+            return a + b;
+        }
+        function test(num) {
+            if (num < 0) return;
+            return num > 10;
+        }
+        console.log(add(1, 2));
+        console.log(test(-1));
+
+        var funStr = test;
+        console.log(funStr);
+        console.log(funStr(13));
+
+        console.clear();
+        function testArgu() {
+            for (var i = 0; i < arguments.length; i++) {
+                console.log(arguments[i]);
+            }
+        }
+        function testDefault(name = "yang") {
+            console.log(name);
+        }
+        testArgu('哈哈', true, [1, 2, 3, 4], 'shenm');
+        testDefault('1');
+        function test2(id = 123, name) {
+            console.log(id + ":" + name);
+        }
+        test2(null, "yang");//null:yang     null也是一个参数值
+        test2(undefined, "yang");//123:yang     第一个参数想用默认值，得传undefined
+
+        console.clear();
+
+        var greet = () => {
+            console.log("hello");
+        }
+        greet();
+        greet = name => {
+            console.log("hello:" + name);
+        }
+        greet("yang");
+        greet = num => num + 1;
+        console.log(greet(3));
+        greet = num => console.log(num + 1);
+        greet(2);
+
+        console.clear();
+        //求平方和
+        function squareSum(a, b) {
+            function square(x) {
+                return x * x;
+            }
+            return square(a) + square(b);
+        }
+        console.log(squareSum(3, 4));
+
+        //高阶函数
+        function person() {
+            let name = "yang"; //let只能在内部访问
+            function getName() {
+                return name;
+            }
+            return getName;
+        }
+        console.log(person());//返回getName函数的表达式
+        console.log(person()());//执行返回的getName函数，实现读取内部let属性的功能
+
+        //柯里化
+        console.clear();
+        function addTreeNum(a, b, c) {
+            return a + b + c;
+        }
+        console.log(addTreeNum(1, 2, 3));
+
+        //柯理化，每次调用都返回一个函数表达式，可以实现链式调用()()()
+        function addTreeNumCurri(a) {
+            return function (b) {
+                return function (c) {
+                    return a + b + c;
+                }
+            }
+        }
+        console.log(addTreeNumCurri(1)(2)(3));
+        var addTwo = addTreeNumCurri(1)(2);//先执行2个参数
+        console.log(addTwo(5));
+        console.log(addTwo(6));
+
+        //自执行函数
+        console.clear();
+
+        var num = 10;
+        (function () {
+            var num = 20;
+            console.log(num);
+        })();
+        console.log(num);
+
+        //回调函数   回调函数的本质是把函数表达式作为参数进行传递，回调函数由实际调用的时候再实现
+        console.clear();
+
+        function request(cb) { //参数：传递一个函数表达式，等到运行的时候再用()调用执行
+            console.log("执行请求");
+            cb("ok");
+            console.log("请求结束");
+        }
+        function callback(result) { //回调函数
+            console.log("执行回调函数");
+            console.log("回调函数结果:" + result);
+        }
+        request(callback);//执行回调函数
+
+        //箭头函数代码简洁，不考虑回调函数复用性的话，可以用箭头函数
+        request(result => {
+            console.log("执行回调函数");
+            console.log("回调函数结果：" + result);
+        });
+
+
+        //数组
+        console.clear();
+        var arr1 = new Array(1, 2, 3);
+        console.log(arr1); //new Array多个元素表示数组元素
+        var arr2 = new Array(3);
+        console.log(arr2); //new Array单个元素表示数组长度
+        var arr3 = Array(1, 2, 3);
+        console.log(arr3);//与new Array一致
+        var arr4 = Array(3);
+        console.log(arr4);//与new Array一致
+        var arr5 = Array.of(1, 2, 3);
+        console.log(arr5);
+        var arr6 = Array.of(3); //与前面不用，表示1个元素的数组，元素为3
+        console.log(arr6);
+        var arr7 = [1, 2, 3];
+        console.log(arr7);// [1, 2, 3]
+        var arr8 = [3];
+        console.log(arr8);//[3]
+
+        //访问数组
+        console.clear();
+        var arr = [1, 2, 3];
+        console.log(arr[5]);//undefined
+        arr[6] = 99;
+        console.log(arr);//数组长度变为7
+        console.log(arr[4]);//中间元素为undefined
+        //删除数组
+        var arr = [1, 2, 3, 4, 5, 6];
+        console.log(arr.splice(1, 3));//删除1开始的3个元素，返回被删除的元素
+        console.log(arr);
+        //删除1开始的1个元素，同时在删除的位置插入[7,8]和9，10，返回被删除的元素
+        console.log(arr.splice(1, 1, [7, 8], 9, 10));
+        console.log(arr);
+        //3开始的位置删除0个元素，再插入66、67，相当于在3下标元素的前面新增66，67两个元素
+        console.log(arr.splice(3, 0, 66, 67));//返回被删除的元素[]
+        console.log(arr);
+
+
+        //数组遍历
+        console.clear();
+        var arr = [1, 2, 3, 4, 5, 6];
+        for (let i = 0; i < arr.length; i++) {  //获取数组元素下标
+            console.log(arr[i]);
+        }
+        for (let ele of arr) {  //获取数组元素
+            console.log(ele);
+        }
+        for (let k in arr) {   //获取数组元素下标
+            console.log(arr[k]);
+        }
+        console.clear();
+        //forEach 3参数    元素，下标，数组本身
+        arr.forEach((ele, index, self) => {
+            console.log(ele, index, self);
+        })
+
+        //反转数组
+        console.clear();
+        //字符串用''分割成数组，再反转，反转后再拼接成字符串
+        console.log("hello".split("").reverse().join("")); //olleh
+
+        //数组排序
+        var arr = [3, 1, 4, 2, 5];
+        console.log(arr.sort());//默认升序
+
+        //通过数组回调函数 控制sort方法排序方式
+        arr.sort((a, b) => {
+            if (a > b) {   //a>b返回1时表示升序，返回-1为降序
+                return -1;
+            } else if (a < b) {
+                return 1;
+            } else {
+                return 0;
+            }
+        });
+
+        //若数组都是数字的话，sort回调函数可以简写为
+        arr.sort((a, b) => a - b); //a>b时，返回true，升序；
+        console.log(arr);
+
+        //数据的裁切slice  （有别于splice数组的删除）
+        //slice操作   原数组不变
+        //splice操作  原数组改变
+        console.clear();
+        var arr = [1, 3, 4, 5, 8, 9];
+        console.log(arr.slice(2));//[4, 5, 8, 9] 返回从下标2开始的后面元素
+        console.log(arr.slice(2, 4));//[4, 5] 返回下标2，3的元素
+        //[3, 4, 5]  -2为倒数第二个元素8的下标，表达式等同于arr.slice(1,4)
+        console.log(arr.slice(1, -2));
+        console.log(arr.slice(4, 3)); //[]   前面下标比后面大，返回空数组
+        console.log(arr);
+
+        //数组 map操作  原数组不变
+        console.clear();
+        var arr = [1, 3, 4, 5, 6];
+        var mapArr = arr.map(ele => ele * 2); //对arr数组每个元素*2
+        console.log(mapArr);//[2, 6, 8, 10, 12]
+        console.log(arr);//[1, 3, 4, 5, 6] 旧数组不变
+
+        //数组 reduce操作
+        console.clear();
+        var arr = [1, 2, 3, 4, 5];
+        //元素累加效果，参数0为初始值，可以不加
+        var result = arr.reduce((prev, curr) => prev + curr, 0);
+        console.log(result);//15
+
+        //若不传初始值的话，pre从1开始，结果为 1+2*2+3*2+4*2+5*2=29
+        result = arr.reduce((pre, curr) => pre + curr * 2);
+        console.log(result);//29
+        //传初始值0的话，pre从0 开始，结果为 0+1*2+2*2+3*2+4*2+5*2=30
+        result = arr.reduce((pre, curr) => pre + curr * 2, 0);
+        console.log(result);//30
+
+        //数组 过滤操作filter
+        console.clear();
+        var arr = [1, 23, 4, 5, 27, 18];
+        var result = arr.filter(value => value > 10);//返回>10的元素
+        console.log(result);
+
+        //数组测试
+        console.clear();
+        var arr = [1, 23, 4, 5, 27, 18];
+        //判断是否所有元素都大于10
+        var result = arr.every(value => value > 10);
+        console.log(result);//false
+        //判断是否存在元素大于10
+        var result = arr.some(value => value > 10);
+        console.log(result);//true
+
+        //destructuring 操作符   将数组解构给变量
+        console.clear();
+        var arr = [1, 2, 3];
+        var [a, b, c] = arr;
+        console.log(a, b, c);//1,2,3
+        var [a, b] = arr; //按顺序赋值
+        console.log(a, b);//1,2
+        var [, b] = arr;//只要第二个,前面加“,”表示有个元素
+        console.log(b);
+        //多个返回值的场景，通过数组返回结果
+        function multipleReturns() {
+            let name = "yang";
+            let age = 18;
+            return [name, age];
+        }
+        var [name, age] = multipleReturns();
+        console.log(name + ":" + age);
+
+        //rest操作
+        console.clear();
+        var arr = [1, 2, 3, 4, 5, 6];
+        var [a, b, ...rest] = arr; //rest返回剩余的数组元素集合
+        console.log(a, b, rest); 
+        var [a, ,b, ...rest] = arr; //rest只返回b位置之后的元素集合，和a,b中间是否跳过元素无关
+        console.log(a,b,rest);
+
+        function variableArgus(...args){
+            console.log(args);
+        }
+        variableArgus(1,'a',3);
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    </script>
+</head>
+
+<body>
+
+</body>
+
+</html>

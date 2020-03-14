@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EasyUI放置和调节大小</title>
+    <link rel="stylesheet" type="text/css"" href="js/themes/default/easyui.css">
+    <link rel="stylesheet" type="text/css" href="js/themes/icon.css">
+    <script src="js/jquery.min.js" type="text/javascript"></script>
+    <script src="js/jquery.easyui.min.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        $(function(){
+            $("#drag1").addClass("drag");
+            $("#drag2").addClass("drag");
+            $("#drag3").addClass("drag");
+
+            // $("#container").addClass("target");
+            $("#target1").addClass("target");
+            $("#target2").addClass("target");
+
+            //拖动
+            $(".drag").draggable({
+                proxy:"clone", //克隆形式拖动
+                revert:true    //放开鼠标，自动回到原来位置
+            });
+            
+            //放置
+            $(".target").droppable({
+                accept:"#drag1,#drag3",
+                onDragEnter:function(e,source){
+                    $(source).draggable("options").cursor="pointer";//鼠标变手指
+                    $(source).draggable("proxy").css("border","solid 1px red");
+                },
+                onDragLeave:function(e,source){
+                    $(source).draggable("options").cursor="no-drop";//鼠标变红色圈圈
+                    $(source).draggable("proxy").css("border","solid 1px #CCC");
+                },
+                onDrop:function(e,source){
+                    $(source).appendTo(this);
+                }
+            });
+
+            //大小可变
+            $("#target2").resizable({
+                minWidth:100,  //这里不能写”100px“
+                minHeight:100
+            });
+
+        });
+    </script>
+    <style type="text/css">
+        .drag{
+            width: 50px;
+            height: 50px;
+            border: solid 1px;
+            background-color: lightblue;
+        }
+        .target{
+            width: 200px;
+            height: 300px;
+            border: solid 2px black;
+            padding: 5px;
+            margin: 10px;
+            float: left;
+        }
+        #container{
+            width: 60px;
+            height: 300px;
+            margin: 10px;
+            float: left;
+        }
+    </style>
+</head>
+<body>
+    <h3>EasyUI放置和调节大小</h3>
+    <hr>
+    <!-- 放置3个div的容器 -->
+    <div id="container">
+        <div id="drag1"></div>
+        <div id="drag2"></div>
+        <div id="drag3"></div>
+    </div>
+    <div id="target1">
+
+    </div>
+    <div id="target2">
+
+    </div>
+</body>
+</html>

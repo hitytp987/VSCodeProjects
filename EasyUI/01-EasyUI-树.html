@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EasyUI学习</title>
+    <link rel="stylesheet" type="text/css" href="js/themes/default/easyui.css">
+    <link rel="stylesheet" type="text/css" href="js/themes/icon.css">
+    <script src="js/jquery.min.js"></script>
+    <!-- <script src="js/jquery.easyui.min.js"></script> -->
+    <!-- 通过选择tree样式相关的js替换jquery.easyui.min.js，可以有效减少传输文件大小-->
+    <script src="js/plugins/jquery.tree.js"></script>
+    <script src="js/plugins/jquery.parser.js"></script>
+    
+    <script type="text/javascript">
+        $(function(){
+            $("#tree").tree({
+                onClick:function(node){
+                    alert(node.text); //弹窗显示点击节点的text信息
+                },
+                onCheck:function(node,checked){
+                    if(checked){
+                        alert("已选择："+node.text);
+                    }else{
+                        alert("取消选择："+node.text);
+                    }
+                }
+            });
+        })
+    </script>
+</head>
+<body>
+    <h3>EasyUI学习</h3>
+    <hr>
+    <!-- <ul class="easyui-tree"></ul>  直接设置class方法 -->
+    <ul class="easyui-tree" checkbox="true">
+        <li>目录01</li>
+    </ul>
+    <!-- 
+        checkbox:true 节点前面显示复选框
+        animate:true  显示展开折叠的动画效果
+        lines:true    显示竖线
+     -->
+    <ul id="tree" data-options="checkbox:true,animate:true,lines:true" > 
+        <li><span>福州</span>   
+            <ul> 
+                <li><span>鼓楼</span></li>
+                <li><span>仓山</span></li>
+                <li><span>晋安</span></li>
+            </ul>
+        </li>
+        <li><span>厦门</span>
+            <ul>
+                <li><span>集美</span></li>
+                <li><span>啥?</span></li>
+            </ul>
+        </li>
+        <li><span>宁德</span></li>
+        <li><span>莆田</span></li>
+    </ul>
+</body>
+</html>

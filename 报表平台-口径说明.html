@@ -1,0 +1,46 @@
+<style type="text/css">
+    #aShow {
+        position: absolute;
+        top: 0px;
+        right: 0px;
+        font-weight: bold;
+        font-size: 16px;
+        color: rgb(30, 108, 156);
+    }
+</style>
+<script type="text/javascript">
+    var newWin;
+    //显示窗口
+    function show() {
+        var wWidth = 500, wHeight = 300;
+        var sLeft = (window.screen.availWidth - wWidth) / 2;
+        newWin = window.open("", "newwindow", 'height=' + wHeight + ',width=' + wWidth + ',top=100,left=' + sLeft + ',toolbar=no,menubar=no,scrollbars=no,resizable=no,location=no,status=no');
+        var showdiv = document.getElementById("showdiv");
+        newWin.document.title = "口径说明";//设置标题
+        newWin.document.body.innerHTML = showdiv.innerHTML;//口径说明文本         
+    }
+    // 父窗口关闭的同时关闭子窗口
+    function close() {
+        newWin.close();
+    }
+</script>
+
+<body onunload="close()">
+    <!-- 口径说明超链接-按钮 -->
+    <a id="aShow" href="javascript:show()">*口径说明*</a>
+    <div id="showdiv" style="display: none;">
+        <pre><!-- 粘贴口径说明文档的时候，整体左缩进移动到0 -->
+    公司未满足上述业绩考核目标的，所有激励对象对应考核当年可解除限售的
+限制性股票均不得解除限售，由公司回购注销，回购价格为授予价格加上银行同
+期存款利息。
+
+
+    修订后：
+    股票期权激励计划公司层面业绩考核要求
+    本激励计划的行权考核年度为 2020-2022 年三个会计年度，每个会计年度
+考核一次，以达到绩效考核目标作为行权条件。
+    首次授予的股票期权各年度业绩考核目标如下表所示：
+        行权期                               业绩考核目标
+        </pre>
+    </div>
+</body>
