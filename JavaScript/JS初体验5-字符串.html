@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script type="text/javascript">
+        //字符串
+        var str1 = "hello";
+        console.log(str1);
+        var str2 = new String("对象形式字符串");
+        console.log(str2);
+
+        //转义字符
+        var str = "他说：\n \"abc\"是什么意思？";
+        console.log(str);
+
+        //遍历字符
+        console.clear();
+        // for(let i=0;i<str.length;i++){
+        //     console.log(str.charAt(i));
+        // }
+        for (let i = 0; i < str2.length; i++) {
+            // console.log(str2[i]);
+            console.log(str2.charAt(i));//对象形式字符串，两种方法都可以，charAt更通用
+
+        }
+
+        for (let c of str) {
+            console.log(c);
+
+        }
+
+        //裁切
+        console.clear();
+        var str = "this is a good day!";
+        console.log(str.slice(1, 3));//hi
+        console.log(str.slice(1, -3));//his is a good d
+
+        console.log(str.substring(4));//4到最后
+        console.log(str.substring(0, -4));//位置小于0的自动转化为0
+        console.log(str.substring(1, 3));//hi  与slice一致
+        console.log(str.substring(4, 1));//his 前面数字<后面时，自动交换位置查询
+
+        //拼接
+        console.clear();
+        var str1 = "hello ";
+        var str2 = "world";
+        console.log(str1 + str2);
+        console.log(str1.concat(str2,['a','b'],'c'));//hello worlda,bc
+
+        //去空格
+        var str="  db vc ";
+        console.log(str.trim());
+
+        //模板字符串  ``
+        var str = `deffssafsd 得很
+        电动蝶阀发发发
+           ddd  nn
+            啛啛喳喳
+        dd`;
+        console.log(str);//保留格式
+
+        var name = "yagng";
+        var str = `你好，${name}`; //两边是`字符   ${name}表示name变量，省了加号+
+        console.log(str);
+        
+        function greeting(strs,gender){
+            if(gender=="M"){
+                gender="先生"
+            }else if(gender == "F"){
+                gender="女士"
+            }
+            return `${strs[0]}${gender}${strs[1]}`;
+        }
+        var gender = "M";
+        var result = greeting`你好，yang${gender} 玩的开心~`;
+        console.log(result);
+
+        
+        
+        
+
+
+
+
+
+
+    </script>
+</head>
+
+<body>
+
+</body>
+
+</html>

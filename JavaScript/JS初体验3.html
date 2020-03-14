@@ -34,6 +34,23 @@
         emp.info = "李四 后端工程师";
         console.log(emp.info);
         
+        //对象的继承
+        console.clear();
+        class Manager extends Employee{
+            constructor(name, position, dept){
+                super(name, position);
+                this.dept = dept;
+            }
+            signIn(){
+                super.signIn();
+                console.log("Manager的方法");
+                
+            }
+        }
+
+        var manager = new Manager("张三","经理","技术部");
+        console.log(manager.dept);
+        manager.signIn();
         
         
 

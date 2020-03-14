@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script type="text/javascript">
+        //面向对象-成员变量（新）   chrome 80以上版本支持
+        class Employee{
+            dept = "";  //成员变量（新）
+            constructor(name){
+                this.name = name;
+            }
+        }
+        var emp = new Employee("张三");
+        console.log(emp.name);
+        emp.dept = "技术部"; //改变成员变量的值
+        console.log(emp.dept);
+        
+        //面向对象 静态成员(新)
+        class Page{
+            static count = 0;
+            static add(){
+                Page.count++; //静态变量 Page.count
+            }
+        }
+        Page.count++;
+        console.log(Page.count);
+        Page.add();
+        console.log(Page.count);
+        
+        
+
+    </script>
+</head>
+<body>
+    
+</body>
+</html>
