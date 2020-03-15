@@ -133,15 +133,58 @@
         console.log(map);
         
 
-
-
-
-
-
-
-
-
-
+        //异常
+        console.clear();
+        try{
+            console.log(aaa);
+        }catch(err){
+            console.error("异常信息："+err);
+        }finally{
+            console.log("无论异常总会执行");
+        }
+        console.log("异常被捕获后，可以继续执行后面代码");
+        
+        //throw  抛出异常
+        function testThrow(){
+            // throw "404";不推荐
+            throw new Error("404");//推荐
+        }
+        // testThrow();//异常信息： Uncaught 404 
+        try{
+            testThrow();
+        }catch(e){
+            if(e === "404"){
+                console.log("捕获异常：未找到数据404");
+            }
+            console.error(e);
+            console.error(e.name);
+            console.error(e.message);
+        }   
+        //自定义Error
+        console.clear();
+        class APIError extends Error{
+            constructor(url, ...params){
+                super(...params);
+                this.url = url;//新增异常路径参数
+                this.name = "APIError";//修改异常类型名称
+            }
+        }
+        function apiError(){
+            // console.log(aaaaa);
+            throw new APIError("/post","404");
+        }
+        try {
+            apiError();
+        } catch (e) {
+            if(e instanceof ReferenceError){
+                console.log("捕获异常");
+            }else if(e instanceof APIError){
+                console.log("API异常");
+            }
+            console.error(e);
+            console.error(e.name);
+            console.error(e.url);
+        }
 
 
     </script>
