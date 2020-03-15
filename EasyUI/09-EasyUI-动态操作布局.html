@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="./js/themes/default/easyui.css">
+    <link rel="stylesheet" type="text/css" href="./js/themes/icon.css">
+    <script type="text/javascript" src="./js/jquery.min.js"></script>
+    <script type="text/javascript" src="./js/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="./js/easyui-lang-zh_CN.js"></script>
+    <title>动态操作布局--高度自适应</title>
+    
+</head>
+
+<body>
+    <input type="button" value="追加内容" onclick="addItem();">
+    <input type="button" value="删除内容" onclick="removeItem();">
+    <input type="button" value="添加东区" onclick="addEast();">
+    <input type="button" value="删除东区" onclick="removeEast();">
+    <br>
+    <input type="button" value="收起-北" onclick="collapseNorth();">
+    <input type="button" value="展开-北" onclick="expandNorth();">
+    <div id="auto-layout" class="easyui-layout" style="width: 600px;height: 400px;">
+        <div data-options="region:'north',title:'北',split:true" style="height:100px;"></div>
+        <div data-options="region:'south',title:'南'" style="height: 100px;">南</div>
+        <div data-options="region:'west',title:'西',collapsible:false" style="width: 150px;">西</div>
+        <div data-options="region:'east',title:'东'" style="width: 200px;">东</div>
+        <div data-options="region:'center',title:'主体内容',footer:'#page',
+        tools:[{iconCls:'icon-add',handler:function(){alert('add')}}]" >
+            <p>content</p>
+            <p>content</p>
+            <p>content</p>
+        </div>
+    </div>
+
+    <!-- layout:['first','links','last'], 
+         displayMsg:'分页栏显示的内容',
+    -->
+    <div id="page" class="easyui-pagination" data-options="total:100,pageList:[10,25,50,100],
+    buttons:[{iconCls:'icon-add',handler:function(){alert('add')}}]"></div>
+    
+    <script type="text/javascript">
+        //添加内容
+        function addItem(){
+            $("#auto-layout").layout("panel","center").append("<p>new content</p>");
+            setHeight();
+        }
+        //删除内容
+        function removeItem(){
+            //find("p:last") jQuery语句，选择最后一个<p>元素
+            $("#auto-layout").layout("panel","center").find("p:last").remove();
+            setHeight();
+        }
+
+        //layout自适应高度
+        function setHeight(){
+            //center对象
+            var center = $("#auto-layout").layout("panel","center");
+            //center对象的原始外部高度
+            var oldHeight = center.panel("panel").outerHeight();
+            //center对象高度自适应增长
+            center.panel("resize",{height:"auto"});
+            //获取新的center对象高度
+            var newHeight = center.panel("panel").outerHeight();
+            //获取当前layout高度
+            var layHeight = $("#auto-layout").height();
+            //改变layout高度
+            $("#auto-layout").layout("resize",{height:layHeight+newHeight-oldHeight})
+        }
+
+        //添加东区-布局
+        function addEast(){
+            var option = {
+                region : "east",
+                width : 100,
+                title : "new east"
+            }
+            $("#auto-layout").layout("add",option);
+        }
+        //删除东区-布局
+        function removeEast(){
+            $("#auto-layout").layout("remove","east");//操作方法，操作对象
+        }
+
+        //收起北区
+        function collapseNorth(){
+            $("#auto-layout").layout("collapse","north");//传递操作方法，操作对象
+        }
+        //展开北区
+        function expandNorth(){
+            $("#auto-layout").layout("expand","north");
+        }
+
+        $(function(){
+            $("#page").pagination({
+                // 当用户选择新的页面时触发。回调函数包含两个参数：
+                // pageNumber：新的页码
+                // pageSize：新的页面尺寸
+                onSelectPage:function(pageNum, pageSize){
+                    $(this).pagination("loading");
+                    alert(`pageNum:${pageNum},pageSize:${pageSize}`);
+                    $(this).pagination("loaded");
+                    $("#auto-layout").layout("panel","center").panel("refresh","./dynamic.html");
+                }
+            });
+        });
+
+    </script>
+</body>
+
+</html>

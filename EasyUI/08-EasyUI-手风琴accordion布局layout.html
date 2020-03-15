@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="./js/themes/default/easyui.css">
+    <link rel="stylesheet" type="text/css" href="./js/themes/icon.css">
+    <script type="text/javascript" src="./js/jquery.min.js"></script>
+    <script type="text/javascript" src="./js/jquery.easyui.min.js"></script>
+    <!-- <script type="text/javascript" src="./js/easyui-lang-zh_CN.js"></script> -->
+    <title>手风琴accordion 布局layout</title>
+</head>
+
+<body class="easyui-layout" >
+    <!-- 布局里面嵌套布局 -->
+    <div data-options="region:'north',title:'北',split:true" style="height:200px;">
+        <div class="easyui-layout" fit="true">
+            <div data-options="region:'west',title:'西',collapsible:false" style="width:30%;">西</div>
+            <div data-options="region:'east',title:'东',collapsible:false" style="width:100px;">东</div>
+            <div data-options="region:'center',title:'中'" ></div>
+        </div>
+    </div>
+    <div data-options="region:'south',title:'南'" style="height: 150px;">南</div>
+
+    <!-- 布局里面嵌套手风琴 -->
+    <div data-options="region:'west',title:'西',collapsible:false" style="width: 200px;">
+        <!-- 要实现多个面板打开效果multiple:true，就得取消对应维度的px设置 -->
+        <!-- 手风琴accordion 水平面板 -->
+        <div class="easyui-accordion" style="width:100%;" data-options="multiple:true">
+            <div title="面板1">我是面板1</div>
+            <div title="面板2" data-options="iconCls:'icon-help'">我是面板2</div>
+            <div title="面板3" selected="true">我是面板3</div>
+        </div>
+    </div>
+    <div data-options="region:'east',title:'东'" style="width: 300px;">东</div>
+    <div data-options="region:'center',title:'中',iconCls:'icon-ok',href:'./dynamic.html'" ></div>
+
+</body>
+
+</html>

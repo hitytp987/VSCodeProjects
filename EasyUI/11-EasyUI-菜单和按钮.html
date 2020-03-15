@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="./js/themes/default/easyui.css">
+    <link rel="stylesheet" type="text/css" href="./js/themes/icon.css">
+    <script type="text/javascript" src="./js/jquery.min.js"></script>
+    <script type="text/javascript" src="./js/jquery.easyui.min.js"></script>
+    <!-- <script type="text/javascript" src="./js/easyui-lang-zh_CN.js"></script> -->
+    <title>菜单 链接按钮</title>
+</head>
+
+<body>
+    <h3>链接按钮</h3>
+    <!-- 
+        a标签有的功能，链接按钮都有 
+        iconAlign:'right'设置图标在文字的右边 （默认在左边）
+        size:'large'  图片变大了点
+        selected:true  按钮选中状态
+        toggle:true    选中/不选中状态自动切换
+        plain:true     简单按钮，没有边框等外部样式
+        group:'g1'     按钮分组，配合toggle:true可以实现单选效果
+    -->
+    <a class="easyui-linkbutton">text</a>
+    <a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-add'">icon</a>
+    <!-- iconAlign:'right'设置图标在文字的右边 （默认在左边）-->
+    <a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-add',iconAlign:'right',selected:true">icon</a>
+    <a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-add',iconAlign:'top',toggle:true,plain:true">icon</a>
+    <a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-add',iconAlign:'bottom',plain:true">icon</a>
+    <a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-large-clipart',iconAlign:'top'">icon</a>
+    <!-- size:'large'  图片变大了点 -->
+    <a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-large-clipart',iconAlign:'top',size:'large'">icon</a>
+    <br>
+    <!-- 按钮分组 group:'g1'，配合toggle:true可以实现单选效果 -->
+    <a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-large-clipart',group:'g1',iconAlign:'top',toggle:true">icon</a>
+    <a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-large-clipart',group:'g1',iconAlign:'top',toggle:true">icon</a>
+    <a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-large-clipart',group:'g1',iconAlign:'top',toggle:true">icon</a>
+
+    <h3>菜单按钮（点击按钮出菜单）</h3>
+    <!--
+        menuAlign:'right'   菜单的栏的右边线与按钮的右边对齐（默认left，左边线与左边对齐）
+
+     -->
+    <a href="#" class="easyui-menubutton" data-options="iconCls:'icon-add',menu:'#mm' "></a>Add</a>
+    <a href="#" class="easyui-menubutton" data-options="iconCls:'icon-help',menu:'#mm2',menuAlign:'right' ">Help</a>
+
+
+    <!-- 定义一个tabs选项卡 -->
+    <div id="tm" class="easyui-tabs" style="width:500px;height:200px;">
+        <div title="tab1">选项1</div>
+        <div title="tab2" id="menu-tab">选项2</div>
+    </div>
+
+
+    <div id="mm2">
+        <div>h1</div>
+        <div>h2</div>
+        <div>h3</div>
+    </div>
+    <div id="mm" class="easyui-menu" style="width:120px" data-options="onClick:menuHandler">
+        <div data-options="iconCls:'icon-add',name:'New'">New</div>
+        <div data-options="iconCls:'icon-save',name:'Save'">Save</div>
+        <!-- 菜单的分割线  class="menu-sep" -->
+        <div class="menu-sep"></div> 
+        <!-- 复杂层级菜单 -->
+        <div>
+            <!-- 
+                span标签内容表示当前菜单的名字：Sub 
+                Sub的子菜单都在Sub下面的div中
+            -->
+            <span>Sub</span>
+            <div>
+                <div><span>sub1</span></div>
+                <div>
+                    <span>sub2</span>
+                    <div>
+                        <div><span>sub21</span></div>
+                        <div><span>sub22</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div data-options="name:'Exit'">Exit</div>
+
+    </div>
+
+    <script type="text/javascript">
+        $(function () {
+            $(document).bind("contextmenu", function (e) {
+                e.preventDefault(); //通知浏览器不要执行原右键菜单事件的操作
+
+                //显示自定义菜单
+                $('#mm').menu("show", {
+                    left: e.pageX,
+                    top: e.pageY
+                })
+            })
+
+            //获取选项卡的tab对象
+            var p = $('#menu-tab');
+            //找到选项卡标签对象
+            var mb = p.panel("options").tab.find("a.tabs-inner");
+            mb.menubutton({ //定义选项卡标签对象关联的菜单按钮
+                menu:'#mm',
+                iconCls:'icon-help'
+            }).click(function(){
+                $('#tm').tabs("select",1);
+            })
+
+            // 获取选中的 tab panel 和它的 tab 对象  
+            //var pp = $('#tt').tabs('getSelected');  
+            //var tab = pp.panel('options').tab;  // 相应的 tab 对象
+
+        });
+
+        //菜单单子事件响应函数
+        function menuHandler(item){//item指向的就是被单击的对象
+            alert(item.name);
+        }
+    </script>
+</body>
+
+</html>

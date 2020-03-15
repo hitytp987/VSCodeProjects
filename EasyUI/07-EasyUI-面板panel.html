@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="./js/themes/default/easyui.css">
+    <link rel="stylesheet" type="text/css" href="./js/themes/icon.css">
+    <script type="text/javascript" src="./js/jquery.min.js"></script>
+    <script type="text/javascript" src="./js/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="./js/easyui-lang-zh_CN.js"></script>
+    <title>面板</title>
+</head>
+
+<body>
+    <div class="easyui-panel" style="width: 400px;height:100px;" data-options="title:'属性',collapsible:true
+    ,maximizable:true,closable:true
+    ,tools:'#tools',footer:'#footer'">
+        <p>可折叠,最大化，关闭</p>
+    </div>
+    <div id="tools">
+        <a href="#" class="icon-add" onclick="javascript:alert('add')"></a>
+        <a href="#" class="icon-save" onclick="javascript:alert('save')"></a>
+    </div>
+
+    <hr>
+
+    <script type="text/javascript">
+        $(function () {
+            $("#jsPanel").panel({
+                width: 400,
+                height: 300,
+                title: "JS面板",
+                collapsible: true, //可收起
+                maximizable: true,  //最大化
+                closable: true, //可关闭
+                footer: '#footer',//页面底部信息
+                // halign:'left',//标题栏变到左边（默认是top）
+                // titleDirection:'up', //标题文字从下到上读
+                tools: [
+                    {
+                        iconCls: "icon-add", //指定图标
+                        handler: function () { //图标对应事件
+                            alert("js-add");
+                        }
+                    }, {
+                        iconCls: "icon-save",
+                        handler: function () {
+                            alert("js-save");
+                        }
+                    }, {
+                        iconCls: "icon-reload",//重新加载图标
+                        handler: function () { //图标事件：刷新加载页面信息
+                            $("#jsPanel").panel("refresh", "./dynamic.html");
+                        }
+                    }
+                ],
+                href: "./dynamic.html", //远程加载页面
+                onLoad: function () {
+                    console.log("远程加载触发的事件");
+                }
+            });
+        });
+    </script>
+    <pre>
+    1、正常关闭的时候时候，只是可不见了，可以再开启；若关闭销毁的话，面板就没了。
+    2、打开状态的面板才能加载数据。
+    </pre>
+    <input type="button" value="打开" onclick="$('#jsPanel').panel('open')">
+    <input type="button" value="关闭" onclick="$('#jsPanel').panel('close')">
+    <input type="button" value="展开" onclick="$('#jsPanel').panel('expand')">
+    <input type="button" value="收起" onclick="$('#jsPanel').panel('collapse')">
+    <input type="button" value="关闭销毁" onclick="$('#jsPanel').panel('destroy')">
+    <div id="jsPanel" class="panel-footer">
+
+    </div>
+
+    <div id="footer">
+        我是底部
+    </div>
+
+</body>
+
+</html>

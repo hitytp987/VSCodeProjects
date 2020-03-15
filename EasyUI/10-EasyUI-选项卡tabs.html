@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="./js/themes/default/easyui.css">
+    <link rel="stylesheet" type="text/css" href="./js/themes/icon.css">
+    <script type="text/javascript" src="./js/jquery.min.js"></script>
+    <script type="text/javascript" src="./js/jquery.easyui.min.js"></script>
+    <!-- <script type="text/javascript" src="./js/easyui-lang-zh_CN.js"></script> -->
+    <title>选项卡tabs</title>
+</head>
+
+<body>
+
+    <!-- 
+        tabHeight:50            tab标签高度
+        tab标签可以用img替换
+        tabPosition:'bottom'    标签选项卡，底部展示
+        子tab  selected="true" 默认展示此tab
+        
+     -->
+    <div id="tabs" class="easyui-tabs" style="width:500px;height:200px;" data-options="tabHeight:50,
+    tabPosition:'bottom',
+    tools:[{
+        iconCls:'icon-add',
+        handler:function(){
+            alert('add');
+        }
+    },{
+        iconCls:'icon-remove',
+        handler:function(){
+            alert('remove');
+        }
+    }
+    ]">
+        <!-- 直接定义tab的工具条 -->
+        <div title="tab1" data-options="tools:[{
+            iconCls:'icon-mini-add',
+            handler:function(){
+                alert('add');
+            }
+        }]">选项卡1</div>
+        <!-- 引用自定义的tab工具条 -->
+        <div title="tab2" selected="true" data-options="tools:'#tool-bar'">选项卡2</div>
+        <div title="<img src='./js/themes/icons/large_chart.png' style='margin-top:8px'/>">选项卡3</div>
+        <!-- 选项卡动态加载，只在点击到此选项卡的时候加载一次 -->
+        <div title="tab4" data-options="href:'./dynamic.html'"></div>
+    </div>
+
+    <!-- 自定义工具条 -->
+    <div id="tool-bar">
+        <a class="icon-mini-add" onclick="alert('add')"></a>
+        <a class="icon-mini-edit" onclick="alert('edit')"></a>
+    </div>
+
+    <hr>
+    选项卡：<input type="text" id="tabName">
+    <input type="button" value="添加" onclick="addTab();">
+    <input type="button" value="删除" onclick="removeTab();">
+
+    <div id="js-tabs" style="width:500px;height:200px;">
+
+    </div>
+
+    <script type="text/javascript">
+        $(function () {
+            $('#js-tabs').tabs();
+        });
+
+        //添加选项卡
+        function addTab() {
+            //获取选项卡名字
+            var tabName = $('#tabName').val();
+            if ($('#js-tabs').tabs("exists", tabName)) {
+                $('#js-tabs').tabs("select", tabName);//若存在此名字的tab，则选定它
+            } else {
+                $('#js-tabs').tabs("add", {
+                    title: tabName,     //tab标题
+                    selected: true,     //选定状态
+                    closable: true,     //可关闭
+                    content: '内容：' + tabName //选项卡内容
+                });
+            }
+        }
+
+        //删除/关闭选项卡
+        function removeTab() {
+            var tabName = $('#tabName').val();
+            $('#js-tabs').tabs("close", tabName);//关闭指定名称的选项卡
+        }
+    </script>
+</body>
+
+</html>
