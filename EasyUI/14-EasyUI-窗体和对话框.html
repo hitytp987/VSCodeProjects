@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="./js/themes/default/easyui.css">
+    <link rel="stylesheet" type="text/css" href="./js/themes/icon.css">
+    <script type="text/javascript" src="./js/jquery.min.js"></script>
+    <script type="text/javascript" src="./js/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="./js/easyui-lang-zh_CN.js"></script>
+    <title>窗口和对话框</title>
+</head>
+
+<body>
+    <input type="button" value="打开" onclick="$('#win').window('open')">
+    <input type="button" value="关闭" onclick="$('#win').window('close')">
+    <input type="button" value="销毁" onclick="$('#win').window('destroy')">
+
+    <!-- 
+        overflow:hidden     子元素越出边界部分隐藏
+        position:relative   相对定位
+
+     -->
+    <div class="easyui-panel" style="width: 300px;height: 200px; overflow:hidden,; position:relative;">
+
+        <!-- 
+            collapsible:false   不可折叠
+            closable:false      不可关闭
+            modal:true          模态窗口（窗口在时无法操作浏览器别的元素）
+            closed:true         窗口默认关闭
+            inline:true         内联窗口(窗口只能在父元素panel内移动)
+            iconCls:'icon-save' 窗口左上角增加个保存图标
+            tools:'#tools'      添加工具条
+            href:'./dynamic.html'   加载动态页面（窗口打开时才加载页面，且只加载一次）
+        -->
+        <div id="win" class="easyui-window" title="My Window" style="width: 200px;height: 150px;" data-options="collapsible:false,closable:false,modal:true,closed:true,inline:true,
+        iconCls:'icon-save',tools:'#tools',href:'./dynamic.html'">
+            内容
+        </div>
+    </div>
+
+    <!-- 工具栏 -->
+    <div id="tools">
+        <a href="#" class="icon-add" onclick="alert('add')"></a>
+        <a href="#" class="icon-remove" onclick="alert('remove')"></a>
+    </div>
+
+
+    <!-- 对话框1 class直接定义 -->
+    <!-- 
+        toolbar:[]      顶部按钮，按钮之间可以加分割线'-'
+        buttons:[]      底部按钮，按钮之间不可加'-'
+        closed:true     关闭状态
+     -->
+    <div class="easyui-dialog" title="对话框" style="width: 400px;height: 200px;" data-options="closed:true,
+    toolbar:[
+        {
+            iconCls:'icon-add',
+            text:'添加',
+            handler:function(){
+                alert('add');
+            }
+        },'-',
+        {
+            iconCls:'icon-save',
+            text:'保存',
+            handler:function(){
+                alert('save');
+            }
+        }
+    ],buttons:[
+        {
+            iconCls:'icon-ok',
+            text:'确认',
+            handler:function(){
+                alert('ok');
+            }
+        },
+        {
+            iconCls:'icon-cancel',
+            text:'取消',
+            handler:function(){
+                alert('cancel');
+            }
+        }
+    ]">
+
+    </div>
+
+    <!--  对话框2   直接引用工具栏的方式 -->
+    <div class="easyui-dialog" title="对话框" style="width: 400px;height: 200px;"
+        data-options="toolbar:'#toolbar',buttons:'#buttons'">
+        引用工具栏
+    </div>
+
+    <!-- 1.当用户链接时，void(0)计算为0,用户点击不会发生任何效果 -->
+    <!-- <a href="javascript:void(0);">单击此处什么都不会发生</a><br> -->
+    <!-- href="#"  还会刷新下网页给网址加# -->
+    <div id="toolbar">
+        <a href="javascript:viod(0)" class="easyui-linkbutton" data-options="iconCls:'icon-add',plain:true"
+            onclick="javascript:alert('add')">Add</a>
+        <a href="javascript:viod(0)" class="easyui-linkbutton" data-options="iconCls:'icon-save',plain:true"
+            onclick="javascript:alert('save')">Save</a>
+    </div>
+
+    <div id="buttons">
+        <a href="javascript:viod(0)" class="easyui-linkbutton" data-options="iconCls:'icon-ok',plain:true"
+            onclick="javascript:alert('ok')">Ok</a>
+        <a href="javascript:viod(0)" class="easyui-linkbutton" data-options="iconCls:'icon-cancel',plain:true"
+            onclick="javascript:alert('cancel')">cancel</a>
+    </div>
+
+    <!-- 对话框 -->
+    <div id="dial" style="width: 300px;height: 200px;top:400px">
+
+    </div>
+
+    <script type="text/javascript">
+        $(function () {
+            $("#dial").dialog({
+                title: 'js对话框',
+                iconCls: 'icon-save',
+                toolbar: [
+                    {
+                        iconCls: 'icon-add',
+                        text: '添加',
+                        handler: function () {
+                            alert('add');
+                        }
+                    }, '-',
+                    {
+                        iconCls: 'icon-save',
+                        text: '保存',
+                        handler: function () {
+                            alert('save');
+                        }
+                    }
+                ], buttons: [
+                    {
+                        iconCls: 'icon-ok',
+                        text: '确认',
+                        handler: function () {
+                            alert('ok');
+                        }
+                    },
+                    {
+                        iconCls: 'icon-cancel',
+                        text: '取消',
+                        handler: function () {
+                            alert('cancel');
+                        }
+                    }
+                ],
+                href:'./dynamic.html'
+            });
+        });
+    </script>
+</body>
+
+</html>

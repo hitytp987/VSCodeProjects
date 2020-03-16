@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="./js/themes/default/easyui.css">
+    <link rel="stylesheet" type="text/css" href="./js/themes/icon.css">
+    <script type="text/javascript" src="./js/jquery.min.js"></script>
+    <script type="text/javascript" src="./js/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="./js/easyui-lang-zh_CN.js"></script>
+    <title>提示</title>
+</head>
+
+<body>
+    <a href="#" class="easyui-tooltip" title="this is a tooltip">提示</a>
+    &nbsp;<a href="#" id="tt">js-tooltip</a>
+
+    <hr>
+    <!-- 点击显示   登录窗口 -->
+    <a href="#" id="login" class="easyui-tooltip">点击登录</a>
+    <div id="login-form" style="display:none">
+        <div>username: <input type="text"></div>
+        <div>password: <input type="password"></div>
+        <div><input type="button" value="Login"></div>
+    </div>
+
+    <a href="#" class="easyui-tooltip" data-options="
+    hideEvent:'none',
+    content:function(){
+        return $('#toolbar');
+    },
+    onShow:function(){
+        var t = $(this);
+        t.tooltip('tip').focus().unbind().bind('blur',function(){
+            t.tooltip('hide');
+        })
+    }
+    ">toolbar</a>
+
+    <!-- j操作tooltip -->
+    <a href="#" id="js-tt">js-tooltip</a>
+
+    <div style="display: none;">
+        <div id="toolbar">
+            <div class="easyui-linkbutton" data-options="iconCls:'icon-add',plain:true">add</div>
+            <div class="easyui-linkbutton" data-options="iconCls:'icon-save',plain:true">save</div>
+            <div class="easyui-linkbutton" data-options="iconCls:'icon-help',plain:true">help</div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        $(function () {
+            $("#tt").tooltip({
+                position: "right", //提示框出现的位置（提示框预留足够位置才能正常显示）
+                content: "js create tooltip", //提示内容
+                onShow: function () {
+                    $(this).tooltip("tip").css({
+                        backgroundColor: "#CCC", //背景灰色
+                        borderColor: "#CCC"      //边框灰色
+                    });
+                }
+            });
+
+            // 点击显示登录窗口
+            //整体效果：鼠标移到标签，点击标签后弹出一个登录框，鼠标移出登录框范围，登录框消失
+            // $("#login-form")  登录框对象
+            $("#login").tooltip({
+                content: $("#login-form"),   //显示内容是登录框对象
+                showEvent: "click",          //点击事件触发显示
+                onShow: function () {
+                    var t = $(this); //提示对象
+                    //先解除原有绑定，再增加鼠标移入移出的效果
+                    t.tooltip("tip").unbind().bind("mouseenter", function () {
+                        t.tooltip("show");
+                    }).bind("mouseleave", function () {
+                        t.tooltip("hide");
+                    });
+                },
+                onUpdate: function (content) {
+                    content.panel({
+                        width: 200,
+                        height: 100,
+                        // href:'./dynamic.html',  //也可以动态加载页面内容
+                        title: "login"
+                    });
+                }
+            });
+
+            //点击出现工具条
+            $("#js-tt").tooltip({
+                content: $("#toolbar"), //工具条对象作为提示内容
+                hideEvent: "none",       //屏蔽隐藏事件（保持显示）
+                //工具条tip显示出来后的操作
+                onShow: function () {
+                    //获取tooltip对象
+                    var t = $(this);
+                    //tooltip的工具栏标签聚焦focus()时，解除原有绑定事件
+                    //新绑定一个“失去焦点则隐藏工具栏标签的事件”
+                    t.tooltip("tip").focus().unbind().bind("blur", function () {
+                        t.tooltip("hide");
+                    })
+                },
+                // trackMouse:true, //提示框随鼠标小范围移动
+                showDelay:1000 //鼠标移动位置后，1秒才出现提示条
+            });
+        })
+
+
+
+    </script>
+</body>
+
+</html>

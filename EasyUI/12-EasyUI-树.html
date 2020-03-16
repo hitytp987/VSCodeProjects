@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="./js/themes/default/easyui.css">
+    <link rel="stylesheet" type="text/css" href="./js/themes/icon.css">
+    <script type="text/javascript" src="./js/jquery.min.js"></script>
+    <script type="text/javascript" src="./js/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="./js/easyui-lang-zh_CN.js"></script>
+    <title>树</title>
+</head>
+
+<body>
+    <!-- 
+        animate:true    显示菜单折叠动画效果
+        lines:true      显示菜单节点之间的竖线
+     -->
+    <ul class="easyui-tree" data-options="animate:true,lines:true">
+        <li>菜单1</li>
+        <li>菜单2</li>
+        <li>
+            <span>菜单3</span>
+            <ul>
+                <li>菜单31</li>
+                <li>菜单32</li>
+                <li>菜单33</li>
+            </ul>
+        </li>
+    </ul>
+
+    <hr>
+    <input type="button" value="全选中" onclick="alertNodes($('#jsTree').tree('getChecked'))">
+    <input type="button" value="半选中" onclick="alertNodes($('#jsTree').tree('getChecked','indeterminate'))">
+    <input type="button" value="全选中和半选中" onclick="alertNodes($('#jsTree').tree('getChecked',['checked','indeterminate']))">
+    <input type="button" value="未选中" onclick="alertNodes($('#jsTree').tree('getChecked','unchecked'))">
+
+    <div id="mm" class="easyui-menu" style="width: 100px;">
+        <div onclick="addNode()" data-options="iconCls:'icon-add'">Append</div>
+        <div onclick="insertNode()" data-options="iconCls:'icon-back'">Insert</div>
+        <div onclick="removeNode()" data-options="iconCls:'icon-remove'">Remove</div>
+    </div>
+
+    <ul id="jsTree">
+
+    </ul>
+    <!-- 
+        state:'closed'  菜单默认关闭
+        children:[]     子菜单
+     -->
+    <script type="text/javascript">
+        //显示选中的节点名称
+        function alertNodes(nodes) {
+            var arr = new Array();
+            $(nodes).each(function (i, node) {
+                arr[i] = node["text"];
+            });
+            alert(arr.join(','));
+        }
+
+        $(function () {
+            $("#jsTree").tree({
+
+                //方法1：写死树结构
+                // data: [{ text: 'item1' },
+                // { text: 'item2' },
+                // {
+                //     text: 'item3',
+                //     state: 'closed',
+                //     children: [
+                //         { text: 'item3-1' },
+                //         { text: 'item3-2' },
+                //         { text: 'item3-3' }
+                //     ]
+                // }
+                // ],
+
+                //方法2：动态读取JSON文件树
+                //读取路径
+                url:"./tree.json",
+                //读取方式   静态资源建议get，post在这里报错了
+                method:"get",
+
+                //改变各个节点的显示文字
+                formatter: function (node) {
+                    return '[' + node.text + ']';
+                },
+                // 加载树时改变item2的图标
+                loadFilter: function (data) {
+                    for (var i = 0; i < data.length; i++) {
+                        if (data[i].text == 'item2') {
+                            data[i].iconCls = 'icon-add';
+                        }
+                    }
+                    return data;
+                },
+                //点击节点事件 参数：节点
+                onClick: function (node) {
+                    //指定节点对象可编辑 可修改节点名
+                    $(this).tree("beginEdit", node.target);
+                },
+                //改变完节点名称后触发的事件
+                onAfterEdit: function (node) {
+                    alert(node.text);
+                },
+                //绑定右键菜单事件
+                onContextMenu: function (e, node) {
+                    e.preventDefault();//阻止浏览器的默认右键菜单事件
+                    $(this).tree("select", node.target);//选定节点对象
+                    $("#mm").menu("show", {//显示自定义的菜单对象
+                        left: e.pageX,//菜单对象出现于鼠标右键点击的位置
+                        top: e.pageY
+                    })
+                },
+                //可拖拽
+                dnd: true,
+                //拖动完成触发的事件
+                onDrop: function (target, source, point) {
+                    alert(`原节点：${source.text}`);
+                    //获取target对应的Node对象的text
+                    alert("目标节点：" + $(this).tree("getNode", target).text);
+                },
+                //带复选框的树
+                checkbox: true,
+                //复选框是否级联选定（即勾选了父节点，字节点全部选定），默认级联true
+                // cascadeCheck:false,
+                //只在子节点显示复选框，默认false
+                // onlyLeafCheck:true
+            });
+        });
+
+        //定义节点id
+        var id = 0;
+
+        //追加子节点
+        function addNode() {
+            //获取选择的节点对象
+            var selectItem = $("#jsTree").tree("getSelected");
+            //定义一个子节点
+            var node = {
+                parent: selectItem.target,
+                data: [
+                    {
+                        id: ++id,
+                        text: ''
+                    }
+                ]
+            };
+            $("#jsTree").tree("append", node);//追加子节点
+            node = $("#jsTree").tree("find", id);//获取追加的子节点对象
+            $("#jsTree").tree("beginEdit", node.target);//将子节点改为可编辑状态
+        }
+
+        //插入节点
+        function insertNode() {
+            var selectItem = $("#jsTree").tree("getSelected");
+            //创建节点对象，此节点和选中节点是同级的，不配parent
+            var node = {
+                id: ++id,
+                text: ''
+            };
+            $("#jsTree").tree("insert", {
+                after: selectItem.target, //插入到选定对象后面
+                data: node  //内容就是节点
+            });
+            node = $("#jsTree").tree("find", id);//获取到新插入的节点对象
+            $("#jsTree").tree("beginEdit", node.target);//将新节点对象改为可编辑状态
+        }
+
+        //删除节点
+        function removeNode() {
+            //获取待删除的节点
+            var selectItem = $("#jsTree").tree("getSelected");
+            //删除选定的节点
+            $("#jsTree").tree("remove", selectItem.target);
+        }
+    </script>
+</body>
+
+</html>

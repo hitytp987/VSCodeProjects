@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="./js/themes/default/easyui.css">
+    <link rel="stylesheet" type="text/css" href="./js/themes/icon.css">
+    <script type="text/javascript" src="./js/jquery.min.js"></script>
+    <script type="text/javascript" src="./js/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="./js/easyui-lang-zh_CN.js"></script>
+    <title>消息框</title>
+</head>
+
+<body>
+    <!-- 
+        消息框默认在右下角，进度条在中间
+     -->
+
+     <h5>消息框</h5>
+    <!-- 弹出 -->
+    <a href="#" class="easyui-linkbutton" onclick="show();">show</a>
+    <!-- 滑动 -->
+    <a href="#" class="easyui-linkbutton" onclick="slide();">slide</a>
+    <!-- 淡入 -->
+    <a href="#" class="easyui-linkbutton" onclick="fade();">fade</a>
+    <!-- 进度条提示框  方法与前三者不同 -->
+    <a href="#" class="easyui-linkbutton" onclick="progress();">progress</a>
+    
+    <h5>消息提示框</h5>
+    <a href="#" class="easyui-linkbutton" onclick="myAlert();">alert</a>
+    <a href="#" class="easyui-linkbutton" onclick="myConfirm();">confirm</a>
+    <a href="#" class="easyui-linkbutton" onclick="myPrompt();">prompt</a>
+     
+
+    <script type="text/javascript">
+        function show() {
+            $.messager.show({
+                title: "show标题",
+                msg: "This is a message.",
+                showType: 'show',
+                //设置在左上方显示消息框
+                style: {
+                    //top：滚动条的高度+整个页面的高度
+                    top: document.body.scrollTop + document.documentElement.scrollTop,
+                    buttom: "",
+                    right: "",
+                    left: 0
+                }
+            });
+        }
+
+        function slide() {
+            $.messager.show({
+                title: "slide标题",
+                msg: "This is a message.",
+                showType: 'slide',   //从下往上弹出
+                timeout: 5000,    //5秒后收回  设置为0表示不关闭
+                //设置在右上方显示消息框
+                style: {
+                    //top：滚动条的高度+整个页面的高度
+                    top: document.body.scrollTop + document.documentElement.scrollTop,
+                    buttom: "",
+                    right: 0,
+                    left: ""
+                }
+            });
+        }
+
+        function fade() {
+            $.messager.show({
+                title: "fade标题",
+                msg: "This is a message.",
+                showType: 'fade',   //淡入淡出
+                timeout: 5000,    //5秒后淡出
+                // //设置在左中显示消息框,设置左为0，上下不用设置
+                // style: {
+                //     //top：滚动条的高度+整个页面的高度
+                //     // top: document.body.scrollTop + document.documentElement.scrollTop,
+                //     // buttom: "",
+                //     // right: 0,
+                //     left: 0
+                // }
+
+                //设置在中间显示消息框，就是所有属性都不设置
+                style: {
+                    //top：滚动条的高度+整个页面的高度
+                    // top: document.body.scrollTop + document.documentElement.scrollTop,
+                    // buttom: "",
+                    // right: 0,
+                    // left: ""
+                }
+            });
+        }
+
+        function progress() {
+            $.messager.progress({
+                title: "progress标题",
+                msg: "loading"
+            });
+
+            setTimeout(() => {
+                $.messager.progress("close"); //定时3秒后关闭进度条
+            }, 3000);
+        }
+    
+        //消息提示框
+        function myAlert(){
+            // 参数：标题   内容    提示框消息类型
+            //消息类型：error info  warning question
+            $.messager.alert("title信息","msg信息","question");
+        }
+        function myConfirm(){
+            //参数：标题  内容  回调函数（处理输入信息r:true/false）   
+            $.messager.confirm("titleName","msg",function(r){
+                alert(r);
+            })
+        }
+        function myPrompt(){
+            //参数：标题  内容  回调函数（处理输入信息r:true/false）
+            $.messager.prompt("titleName","msg",function(r){
+                alert(r);
+            });
+        }
+    
+    </script>
+</body>
+
+</html>
