@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="./js/themes/default/easyui.css">
+    <link rel="stylesheet" type="text/css" href="./js/themes/icon.css">
+    <script type="text/javascript" src="./js/jquery.min.js"></script>
+    <script type="text/javascript" src="./js/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="./js/easyui-lang-zh_CN.js"></script>
+    <title>日期</title>
+</head>
+
+<body>
+    <!--日历 -->
+    <div>
+        <div class="easyui-calendar" style="width: 200px;height: 200px;"></div>
+    </div>
+
+    <input type="button" value="日期跳转" onclick="$('#jsca').calendar('moveTo',new Date(2020,2,9))">
+    <div>
+        <div id="jsca"></div>
+    </div>
+
+    <h5>日期框 datebox</h5>
+    <!-- 日期框 -->
+    <input type="text" class="easyui-datebox">
+    <input type="text" id="jsdb">
+
+    <h5>日期时间框 datetimebox</h5>
+    <!-- 日期时间框 
+        showSeconds:false       不显示秒
+    -->
+    <div>
+        <input type="button" value="赋值" onclick="$('#jsdtb').datetimebox('setValue','2020-02-01 12:23:11')">
+        <input type="button" value="取值" onclick="alert($('#jsdtb').datetimebox('getValue'))">
+    </div>
+
+    <input type="text" class="easyui-datetimebox" style="width: 200px;" data-options="showSeconds:false">
+    <input type="text" id="jsdtb" style="width: 200px;">
+
+    <script type="text/javascript">
+        $(function () {
+            //日历
+            $("#jsca").calendar({
+                firstDay: 1,     //显示第一列：星期一（默认周日）
+                onSelect: function (date) {
+                    alert(`${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`);
+                }
+            });
+
+            //日期框
+            $("#jsdb").datebox({
+                required: true,       //必填
+                //格式化日期显示格式
+                formatter: function (date) {
+                    return date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
+                },
+                //定义格式化后的日期的解析方式
+                parser: function (s) {
+                    if(!s) return new Date();
+                    var ss = s.split("-");
+                    var y = parseInt(ss[0], 10);//10进制解析字符
+                    var m = parseInt(ss[1], 10);
+                    var d = parseInt(ss[2], 10);
+                    //合法数字则返回对应日期，否则返回系统日期
+                    if (!isNaN(y) && !isNaN(m) && !isNaN(d)) {
+                        return new Date(y, m - 1, d);
+                    } else {
+                        return new Date();
+                    }
+                }
+
+            });
+            //日期框--日历选择范围限制--只能选今天之后的日期
+            $("#jsdb").datebox("calendar").calendar({
+                validator: function (d) {
+                    var date = new Date();
+                    return d > date;
+                }
+            });
+
+            
+            //日期时间框
+            $("#jsdtb").datetimebox({
+                value:"2020-02-25 13:14:15",   //设置默认时间，默认格式“日/月/年 时:分:秒”
+                //格式化日期显示格式
+                formatter: function (date) {
+                    return date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate()
+                            + " "+date.getHours()+":"+date.getMinutes()+":"+date.getSeconds();
+                },
+                //定义格式化后的日期的解析方式
+                parser: function (s) {
+                    if(!s) return new Date();
+                    var ss = s.split(" ");
+                    var ss1 = ss[0].split("-");
+                    var y = parseInt(ss1[0], 10);//10进制解析字符
+                    var m = parseInt(ss1[1], 10);
+                    var d = parseInt(ss1[2], 10);
+                    var ss2 = ss[1].split(":");
+                    var h = parseInt(ss2[0],10);
+                    var mi = parseInt(ss2[1],10);
+                    var se = parseInt(ss2[2],10);
+                    //合法数字则返回对应日期，否则返回系统日期
+                    if (!isNaN(y) && !isNaN(m) && !isNaN(d) && !isNaN(h) && !isNaN(mi) && !isNaN(se)) {
+                        return new Date(y, m - 1, d, h, mi, se);
+                    } else {
+                        return new Date();
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

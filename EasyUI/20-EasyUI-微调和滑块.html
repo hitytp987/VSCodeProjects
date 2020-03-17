@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="./js/themes/default/easyui.css">
+    <link rel="stylesheet" type="text/css" href="./js/themes/icon.css">
+    <script type="text/javascript" src="./js/jquery.min.js"></script>
+    <script type="text/javascript" src="./js/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="./js/easyui-lang-zh_CN.js"></script>
+    <title>微调和滑块</title>
+</head>
+
+<body>
+    <!-- 
+        increment:10    每次点击的增减量
+     -->
+    <div>
+        数字微调：<input class="easyui-numberspinner" style="width: 80px;"
+        data-options="min:10,max:100,increment:10,editable:false"
+        >
+    </div>
+    <input type="button" value="赋值" onclick="$('#tp').timespinner('setValue','11:12')">
+    <input type="button" value="取值" onclick="alert($('#tp').timespinner('getValue'))">
+    <input type="button" value="禁用" onclick="$('#tp').timespinner('disable')">
+    <input type="button" value="启用" onclick="$('#tp').timespinner('enable')">
+    <div>
+        时间微调：<input id="tp" class="easyui-timespinner" style="width: 100px;"
+        data-options="min:'08:00',max:'18:00'"
+        >
+    </div>
+    <div>
+        日期时间微调：<input id="dtp" class="easyui-datetimespinner" style="width: 200px;"
+        data-options="
+        icons:[{
+            iconCls:'icon-clear',
+            handler:function(e){
+                $(e.data.target).datetimespinner('clear');  //清除日期时间框的内容
+            }
+        }]"
+        >
+    </div>
+
+    <h5>滑块</h5>
+    <!-- 
+        value="12"      滑块所在位置数值
+        miin:10,max:90  限制拖动的范围（标尺也得相应调整，否则对不齐）
+        showTip:true    提示框：显示当前移到的位置数值
+        step:10         每次拖动增长的数值
+        mode:y          滑块变为纵向滑动，此时相应的height高度也得设置（默认水平滑动）
+        tipFormatter:function(value){     //提示信息的格式化，加个百分号显示提示信息
+            return value+'%';
+        } 
+     -->
+     <input type="button" value="赋值" onclick="$('#sd').slider('setValue',36)">
+     <input type="button" value="取值" onclick="alert($('#sd').slider('getValue'))">
+    <div style="margin: 50px;">
+        <input id="sd" class="easyui-slider" value="12" style="width:300px"
+        data-options="showTip:true,rule:[0,'|',25,'|',50,'|',75,'|',100],step:5,
+        tipFormatter:function(value){
+            return value+'%';
+        } ">
+    </div>
+
+    <input type="button" value="赋值" onclick="$('#jssd').slider('setValue',55)">
+    <input type="button" value="禁用" onclick="$('#jssd').slider('disable')">
+    <input type="button" value="启用" onclick="$('#jssd').slider('enable')">
+    <div>
+        <input id="jssd">
+    </div>
+    滑块的值：<span id="span"></span>
+
+    <script type="text/javascript">
+        $(function(){
+            $("#jssd").slider({
+                //滑块数值变动时，显示在span中
+                onChange:function(value){
+                    $("#span").html(value);
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="./js/themes/default/easyui.css">
+    <link rel="stylesheet" type="text/css" href="./js/themes/icon.css">
+    <script type="text/javascript" src="./js/jquery.min.js"></script>
+    <script type="text/javascript" src="./js/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="./js/easyui-lang-zh_CN.js"></script>
+    <title>数字框、组合、文件上传</title>
+</head>
+
+<body>
+    <h5>数字框</h5>
+    <!-- 
+        数字框：只能输数字
+        min:10      最小值10（输入数字<10的时候，自动显示10）
+        max:90      最大值90（数字>90时，显示90）
+        precision:2 数字精度，2位小数（自动补全2位小数）
+        required:true   必填
+
+        groupSeparator:',' 每隔3位以","隔开  
+        prefix:'$'  数字前缀（美元符号）
+        suffix:'$'  数字后缀（美元符号）
+    -->
+    数字框：<input class="easyui-numberbox" data-options="min:10,max:90,precision:2,required:true">
+    <input class="easyui-numberbox" value="123456.789" data-options="precision:2,groupSeparator:',',prefix:'$'">
+    <input class="easyui-numberbox" value="123456.789" data-options="precision:2,groupSeparator:',',suffix:'$'">
+
+    <input id="jsnum">
+
+    <h5>组合</h5>
+    <!-- 组合 -->
+    <div>
+        <input id="cc" style="width: 150px;">
+    </div>
+    <div id="sp">
+        <input type="radio" name="lang" value="01"><span>java</span><br>
+        <input type="radio" name="lang" value="02"><span>html</span><br>
+        <input type="radio" name="lang" value="03"><span>css</span><br>
+        <input type="radio" name="lang" value="04"><span>javascript</span><br>
+    </div>
+
+    <h5>`文件框</h5>
+    <!-- 文件框
+        prompt:'Choose a file~'     文件框提示内容
+        buttonAlign:'left'          选择按钮在左边显示（默认右边显示）
+     -->
+    <div>
+        <input class="easyui-filebox" name="filebox" style="width: 300px;" data-options="prompt:'Choose a file~',
+        buttonAlign:'left'">
+    </div>
+    <div>
+        <input id="fb">
+    </div>
+
+    <script type="text/javascript">
+        $(function () {
+            //数字框
+            $("#jsnum").numberbox({
+                precision: 1,           //精度,1位小数
+                prefix: '￥',           //前缀，rmb
+                groupSeparator: ',',    //每3位整数的分隔符
+                required: true          //必填
+            });
+
+            //组合
+            //初始化组合
+            $("#cc").combo({
+                required:true,      //必填
+                editable:false      //不可编辑
+            });
+            //将单选框radio加入组合的选项面板中
+            $("#sp").appendTo($("#cc").combo("panel"));
+            //修改radid的单击事件，将选定的值显示在组合中
+            $("#sp input").click(function(){
+                var value = $(this).val();    //选项value
+                var text = $(this).next("span").text(); //选项文本内容
+                //将value和text赋值给组合，同时隐藏下拉的单选面板
+                $("#cc").combo("setValue",value).combo("setText",text).combo("hidePanel");
+            });
+
+            //文件框
+            $("#fb").filebox({
+                prompt:"请选择...",
+                buttonAlign:"left"
+            });
+        });
+    </script>
+</body>
+
+</html>

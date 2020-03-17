@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="./js/themes/default/easyui.css">
+    <link rel="stylesheet" type="text/css" href="./js/themes/icon.css">
+    <script type="text/javascript" src="./js/jquery.min.js"></script>
+    <script type="text/javascript" src="./js/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="./js/easyui-lang-zh_CN.js"></script>
+    <title>验证框和文本框</title>
+</head>
+
+<body>
+
+    <h5>验证框</h5>
+    <div>
+        必填<input class="easyui-validatebox" data-options="required:true,validateOnCreate:false,validType:'length[3,10]'" name="username">
+    </div>
+    <div>
+        必填<input class="easyui-validatebox" data-options="required:true,validType:'email'" name="email">
+    </div>
+    <div>
+        必填<input class="easyui-validatebox" data-options="required:true,validType:'url'" name="url">
+    </div>
+
+    <div>
+        jstext<input id="jstext">
+    </div>
+    <div>
+        密码：<input id="pwd" class="easyui-validatebox" data-options="required:true">
+    </div>
+    <div>
+        确认密码：<input class="easyui-validatebox" data-options="required:true" validType="equals['#pwd']">
+    </div>
+
+    <h5>文本框</h5>
+    <div>
+        普通input<input type="text">
+        <br>
+        <!-- 
+            multiline:true      多行文本框
+            prompt:             提示语（灰色显示在文本框内）
+            validType:'email'   邮箱类校验
+         -->
+        <input type="button" value="取值" onclick="alert($('#mt').textbox('getValue'))">
+        <input type="button" value="赋值" onclick="$('#mt').textbox('setValue',123)">
+        <br>
+        多行文本框<input id="mt" class="easyui-textbox" data-options="multiline:true,prompt:'Please input email',validType:'email' " >
+        <br>
+        带图标文本框<input class="easyui-textbox" style="width: 200px;" data-options="
+            icons:[
+                {
+                    iconCls:'icon-add',
+                    handler:function(e){
+                        alert('add');
+                    }
+                },{
+                    iconCls:'icon-remove',
+                    handler:function(e){
+                        alert('remove');
+                    }
+                }
+            ]
+        ">
+        <!-- 自定义个按钮 -->
+        <input class="easyui-textbox" data-options="iconCls:'icon-man',prompt:'personal info'" >
+    </div>
+
+    <script type="text/javascript">
+        $(function () {
+            $("#jstext").validatebox({
+                required: true,
+                validType: "email"
+            });            
+        })
+
+        $.extend($.fn.validatebox.defaults.rules, {
+                equals: {
+                    validator: function (value, param) {
+                        return value == $(param[0]).val();
+                    },
+                    message: "Text is not match"
+                }
+            }
+        );
+    </script>
+</body>
+
+</html>

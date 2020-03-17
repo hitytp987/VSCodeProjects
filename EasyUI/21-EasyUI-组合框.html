@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="./js/themes/default/easyui.css">
+    <link rel="stylesheet" type="text/css" href="./js/themes/icon.css">
+    <script type="text/javascript" src="./js/jquery.min.js"></script>
+    <script type="text/javascript" src="./js/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="./js/easyui-lang-zh_CN.js"></script>
+    <title>组合框</title>
+</head>
+
+<body>
+    <!-- 组合框  支持text模糊搜索提示选项
+        multiple:true       多选（默认单选）
+        multiline:true      多行显示选择的内容
+     -->
+    <div>
+        <select class="easyui-combobox" style="width: 120px;height: 50px;" data-options="multiple:true,
+        
+        ">
+            <option value="1">java</option>
+            <option value="2">css</option>
+            <option value="3">javascript</option>
+        </select>
+    </div>
+
+    <h5>分组下拉组合框</h5>
+    <input id="group">
+    <input id="group2" class="easyui-combobox"><input type="button" value="加载" onclick="loadCombobox()">
+
+    <script type="text/javascript">
+        //定义每个选项的显示样式（默认是显示text信息的）
+        // function formatItem(row){
+        //     return row.name+"["+row.id+"]";
+        // }
+
+        function loadCombobox() {
+            $("#group2").combobox("loadData", [
+                {
+                    "value": 1,
+                    "text": "Firfox 1.5",
+                    "group": "firfox"
+                }, {
+                    "value": 2,
+                    "text": "Firfox 2.0",
+                    "group": "firfox"
+                }, {
+                    "value": 3,
+                    "text": "IE 6",
+                    "group": "ie"
+                }, {
+                    "value": 4,
+                    "text": "IE 7",
+                    "group": "ie"
+                }, {
+                    "value": 5,
+                    "text": "IE 8",
+                    "group": "ie"
+                }
+            ]
+            )
+        }
+        $(function () {
+            var data = [
+                {
+                    "value": 1,
+                    "text": "Firfox 1.5",
+                    "group": "firfox"
+                }, {
+                    "value": 2,
+                    "text": "Firfox 2.0",
+                    "group": "firfox"
+                }, {
+                    "value": 3,
+                    "text": "IE 6",
+                    "group": "ie"
+                }, {
+                    "value": 4,
+                    "text": "IE 7",
+                    "group": "ie"
+                }, {
+                    "value": 5,
+                    "text": "IE 8",
+                    "group": "ie"
+                }
+            ];
+
+            $("#group").combobox({
+                data: data,       //分组数据（data为json格式数据）
+                groupField: "group",  //按哪个字段分组
+                icons: [     //增加图标按钮
+                    {
+                        iconCls: 'icon-add',
+                        handler: function () {
+                            alert("add");
+                        }
+                    }, {
+                        iconCls: "icon-remove",
+                        handler: function () {
+                            alert("remove");
+                        }
+                    }
+                ]
+            });
+        });
+    </script>
+</body>
+
+</html>
